@@ -107,7 +107,8 @@ void get_action(struct bot *b, int *action, int *n) {
                     return;
                 }
                 //update the cash after buy the items
-                b->cash -=(b->location->price)*(*n);
+               // b->cash = b->cash - (b->location->price)*(*n);
+                b->cash = 0;
                 //update the quantity in the location
                 b->location->quantity -= (*n);
                 return;
