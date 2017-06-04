@@ -40,6 +40,7 @@ void get_action(struct bot *b, int *action, int *n) {
     int cargonum=0;
     //this cargo size is used to generate the new cargo in the robot when the robot buy a new type of cargo
     int cargo_size=sizeof(struct cargo);
+    struct cargo* forbuyccargo;
 
     switch(b->location->type){
         case LOCATION_START :
@@ -89,13 +90,22 @@ void get_action(struct bot *b, int *action, int *n) {
 
 
                 //if store is larger than seller, don't buy again
-               // if(b->cargo>find_quantity0fshop(b)){
-                //    *n =0 ;
-                //}
+              /*  for(int i =0;i<cargonum;i++){
+                    while(b->cargo != NULL){
 
-
-
-
+                    }
+                }*/
+                forbuyccargo=b->cargo;
+                while(forbuyccargo != NULL){
+                    if((*b->location->commodity->name)==(*forbuyccargo->commodity->name)){
+                        if(forbuyccargo->quantity>=find_quantity0fshop(b)){
+                            *n=0;
+                        }
+                        break;
+                    }
+                    forbuyccargo=forbuyccargo->next;
+                }
+                
                 //in this action, n would be number of items, the robot wants to buy
                 costmoneyNeeded=(b->location->price)*(*n);
                 //if costmoneyNeeded greater than the cash the robot has, it couldn't buy so many items
