@@ -27,10 +27,10 @@ void get_action(struct bot *b, int *action, int *n) {
     int costmoneyNeeded=0;
     //to indicate in this position to buy fuel or not
     int buy_fuel=0;
-    struct cargo *buyercargo=b->cargo;
-    struct cargo *newcargo;
+    struct cargo* buyercargo=b->cargo;
+   // struct cargo* newcargo;
     //sellcargo is used to simplify the code
-    struct cargo *sellcargo=b->cargo;
+    struct cargo* sellcargo=b->cargo;
     //the item want to buy is already in the cargo list or not
     int alreadybuyitemType=0;
     //based on the location find the action we need
@@ -124,10 +124,10 @@ void get_action(struct bot *b, int *action, int *n) {
                 if(alreadybuyitemType != 1){
                     //the buyer item is not in the cargo list
                     //create new one and add into the chain
-                    a=*n;
-                    newcargo=(struct cargo *) malloc(sizeof(cargo_size));
+                    a=(*n);
+                    struct cargo* newcargo=(struct cargo*)malloc(sizeof(cargo_size));
                     newcargo->next=NULL;
-                    newcargo->quantity=10;
+                    newcargo->quantity=a;
                     newcargo->commodity=(b->location->commodity);
                     //add this new cargo into the end of the cargo list
                     buyercargo=b->cargo;
