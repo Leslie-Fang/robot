@@ -159,7 +159,10 @@ void get_action(struct bot *b, int *action, int *n) {
                         buyercargo=buyercargo->next;
                     }*/
                     b->cargo=&newcargo[0];
-                    newcargo[cargonum-1].next=&newcargo[cargonum];
+                    if(cargonum > 0){
+                        newcargo[cargonum-1].next=&newcargo[cargonum];
+                    }
+                   // newcargo[cargonum-1].next=&newcargo[cargonum];
                     cargonum=cargonum+1;
                 }
                 return;
