@@ -36,6 +36,8 @@ void get_action(struct bot *b, int *action, int *n) {
     //the item want to buy is already in the cargo list or not
     int alreadybuyitemType=0;
     //based on the location find the action we need
+    struct cargo* newcargo[20];
+    int cargonum=0;
     //this cargo size is used to generate the new cargo in the robot when the robot buy a new type of cargo
     int cargo_size=sizeof(struct cargo);
 
@@ -83,6 +85,17 @@ void get_action(struct bot *b, int *action, int *n) {
                 if(*n>find_quantity0fshop(b) ){
                     *n=find_quantity0fshop(b);
                 }
+
+
+
+                //if store is larger than seller, don't buy again
+               // if(b->cargo>find_quantity0fshop(b)){
+                //    *n =0 ;
+                //}
+
+
+
+
                 //in this action, n would be number of items, the robot wants to buy
                 costmoneyNeeded=(b->location->price)*(*n);
                 //if costmoneyNeeded greater than the cash the robot has, it couldn't buy so many items
@@ -116,7 +129,7 @@ void get_action(struct bot *b, int *action, int *n) {
                 b->cash = 0;
                 //update the quantity in the location
                 b->location->quantity -= (*n);
-                return;
+                //return;
                 //add the item the user buy into the cargo
                 //if the buyer item is already in the cargo list
                 while(buyercargo != NULL){
@@ -130,21 +143,26 @@ void get_action(struct bot *b, int *action, int *n) {
                     }
                     buyercargo=buyercargo->next;
                 }
+                //return;
                 if(alreadybuyitemType != 1){
+                    //struct cargo* newcargo[20];
                     //the buyer item is not in the cargo list
                     //create new one and add into the chain
                     a=(*n);
-                    struct cargo* newcargo=(struct cargo*)malloc(sizeof(cargo_size));
-                    newcargo->commodity = b->location->commodity;
-                    newcargo->quantity = a;
-                    newcargo->next = NULL;
+                   // struct cargo* newcargo=(struct cargo*)malloc(sizeof(cargo_size));
+                    newcargo[cargonum]->commodity = b->location->commodity;
+                    newcargo[cargonum]->quantity = a;
+                    newcargo[cargonum]->next = NULL;
                     //add this new cargo into the end of the cargo list
                     buyercargo=b->cargo;
                     while(buyercargo->next != NULL){
                         buyercargo=buyercargo->next;
                     }
-                    buyercargo->next=newcargo;
+                    buyercargo->next=newcargo[cargonum];
+
+                    cargonum=cargonum+1;
                 }
+                return;
             }else{
                 //buy fuel
                 //first try to add to the fuel_tank_size
