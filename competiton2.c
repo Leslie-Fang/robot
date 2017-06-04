@@ -108,6 +108,8 @@ void get_action(struct bot *b, int *action, int *n) {
                 }
                 //update the cash after buy the items
                 b->cash -=(b->location->price)*(*n);
+                //update the quantity in the location
+                b->location->quantity -= (*n);
                 return;
                 //add the item the user buy into the cargo
                 //if the buyer item is already in the cargo list
