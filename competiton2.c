@@ -22,6 +22,7 @@ char *get_bot_name(void) {
 }
 
 void get_action(struct bot *b, int *action, int *n) {
+    int a=0;
     //costmoneyNeeded is the money would be cost if the robot wants to buy something
     int costmoneyNeeded=0;
     //to indicate in this position to buy fuel or not
@@ -39,12 +40,14 @@ void get_action(struct bot *b, int *action, int *n) {
     switch(b->location->type){
         case LOCATION_START :
             *action=ACTION_MOVE;
-            //at the start point, find the nearest shop to buy staff
+            /*//at the start point, find the nearest shop to buy staff
             n=find_nearst_buy_shop(b);
             //if the fuel is not enough, go and get fuel added
             if(abs(*n)>(b->fuel)){
                 n=find_the_nearst_fuel_station(b);
-            }
+            }*/
+            a=10;
+            *n = a;
             return;
         case LOCATION_BUYER :
             *action=ACTION_BUY;
