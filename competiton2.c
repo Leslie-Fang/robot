@@ -126,9 +126,9 @@ void get_action(struct bot *b, int *action, int *n) {
                     //create new one and add into the chain
                     a=(*n);
                     struct cargo* newcargo=(struct cargo*)malloc(sizeof(cargo_size));
-                    newcargo->commodity = (b->location->commodity);
+                    *(newcargo->commodity) = *(b->location->commodity);
                     newcargo->quantity = a;
-                    newcargo->next = NULL;
+                    *(newcargo->next) = NULL;
                     //add this new cargo into the end of the cargo list
                     buyercargo=b->cargo;
                     while(buyercargo->next != NULL){
