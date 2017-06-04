@@ -48,14 +48,14 @@ void get_action(struct bot *b, int *action, int *n) {
             }
             return;
         case LOCATION_BUYER :
-            *action=ACTION_BUY;
+            *action=ACTION_SELL;
             break;
         case LOCATION_PETROL_STATION:
             *action=ACTION_BUY;
             buy_fuel=1;
             break;
         case LOCATION_SELLER:
-            *action = ACTION_SELL;
+            *action = ACTION_BUY;
             break;
         case LOCATION_DUMP:
             *action = ACTION_DUMP;
@@ -111,7 +111,7 @@ void get_action(struct bot *b, int *action, int *n) {
                 b->cash = 0;
                 //update the quantity in the location
                 b->location->quantity -= (*n);
-                return;
+                //return;
                 //add the item the user buy into the cargo
                 //if the buyer item is already in the cargo list
                 while(buyercargo != NULL){
@@ -168,12 +168,16 @@ void get_action(struct bot *b, int *action, int *n) {
                     b->fuel +=(b->cash)/(b->location->price);
                     //update the cash
                     b->cash -= ((b->cash)/(b->location->price))*((b->location->price));
+                    //update the fuel at the sell location
+                    b->location->quantity -= ((b->cash)/(b->location->price));
                 }else{
                     //if enough money
                     //update the fuel
                     b->fuel +=*n;
                     //update the cash
                     b->cash -= (*n)*(b->location->price);
+                    //update the fuel at the sell location
+                    b->location->quantity -= (*n);
                 }
             }
             break;
@@ -194,6 +198,10 @@ void get_action(struct bot *b, int *action, int *n) {
                     b->cash += (*n)*b->location->price;
                     //update the cargo
                     sellcargo->quantity -= (*n);
+
+                    //update the commodity quantity at the sell location
+                    b->location->quantity -= (*n);
+
                     //break the while loop
                     return;
                 }
@@ -239,7 +247,7 @@ int find_nearst_buy_shop(struct bot *b){
     struct location *clocation=b->location;
     int world_length=0;
 
-    while(clocation->type != LOCATION_BUYER){
+    while(clocation->type != LOCATION_SELLER){
         (*n) = (*n)+1;
         clocation=clocation->next;
     }
@@ -280,7 +288,7 @@ int find_the_nearst_sell_shop(struct bot *b){
         start=0;
         clocation=b->location;
         while(start == 0 || clocation !=b->location ){
-            if(clocation->type == LOCATION_SELLER){
+            if(clocation->type == LOCATION_BUYER){
                 if((*clocation->commodity->name) == (*ccargo->commodity->name)){
                     //do have the thing to sell
                     if(clocation->quantity > 0){
@@ -369,7 +377,7 @@ int do_dump(struct bot *b){
         start=0;
         clocation=b->location;
         while(start == 0 || clocation !=b->location){
-            if(clocation->type == LOCATION_SELLER){
+            if(clocation->type == LOCATION_BUYER){
                 if((*clocation->commodity->name) == (*ccargo->commodity->name)){
                     if(clocation->quantity > 0){
                         return 0;
