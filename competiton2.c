@@ -9,11 +9,11 @@ int get_current_cargo_volume(struct bot *b);
 //find the number of locations of the world
 int get_world_length(struct bot *b);
 //find the nearst shop and return the value
-int * find_nearst_buy_shop(struct bot *b);
+int find_nearst_buy_shop(struct bot *b);
 //find the nearset fule station to fuel up
-int* find_the_nearst_fuel_station(struct bot *b);
+int find_the_nearst_fuel_station(struct bot *b);
 //find the nearast shop which could sell the same type of cargo
-int* find_the_nearst_sell_shop(struct bot *b);
+int find_the_nearst_sell_shop(struct bot *b);
 //judge dump or not
 int do_dump(struct bot *b);
 
@@ -40,14 +40,12 @@ void get_action(struct bot *b, int *action, int *n) {
     switch(b->location->type){
         case LOCATION_START :
             *action=ACTION_MOVE;
-            /*//at the start point, find the nearest shop to buy staff
-            n=find_nearst_buy_shop(b);
+            //at the start point, find the nearest shop to buy staff
+            *n=find_nearst_buy_shop(b);
             //if the fuel is not enough, go and get fuel added
             if(abs(*n)>(b->fuel)){
-                n=find_the_nearst_fuel_station(b);
-            }*/
-            a=10;
-            *n = a;
+                *n=find_the_nearst_fuel_station(b);
+            }
             return;
         case LOCATION_BUYER :
             *action=ACTION_BUY;
@@ -101,10 +99,10 @@ void get_action(struct bot *b, int *action, int *n) {
                     //couldn't buy anything
                     *action=ACTION_MOVE;
                     //find the neareat shop to sell cargo
-                    n=find_the_nearst_sell_shop(b);
+                    *n=find_the_nearst_sell_shop(b);
                     //if the fuel is not enough, go and get fuel added
                     if(abs(*n)>(b->fuel)){
-                        n=find_the_nearst_fuel_station(b);
+                        *n=find_the_nearst_fuel_station(b);
                     }
                     return;
                 }
@@ -152,10 +150,10 @@ void get_action(struct bot *b, int *action, int *n) {
                     //couldn't buy anything
                     *action=ACTION_MOVE;
                     //find the neareat shop to sell cargo
-                    n=find_the_nearst_sell_shop(b);
+                    *n=find_the_nearst_sell_shop(b);
                     //if the fuel is not enough, go and get fuel added
                     if(abs(*n)>(b->fuel)){
-                        n=find_the_nearst_fuel_station(b);
+                        *n=find_the_nearst_fuel_station(b);
                     }
                     return;
                 }
@@ -199,10 +197,10 @@ void get_action(struct bot *b, int *action, int *n) {
             //nothing to sell
             *action=ACTION_MOVE;
             //find the neareat shop to sell cargo
-            n=find_the_nearst_sell_shop(b);
+            *n=find_the_nearst_sell_shop(b);
             //if the fuel is not enough, go and get fuel added
             if(abs(*n)>(b->fuel)){
-                n=find_the_nearst_fuel_station(b);
+                *n=find_the_nearst_fuel_station(b);
             }
             return;
         case ACTION_DUMP:
@@ -219,10 +217,10 @@ void get_action(struct bot *b, int *action, int *n) {
             //if have something to sell
             *action = ACTION_MOVE;
             //find the neareat shop to sell cargo
-            n=find_the_nearst_sell_shop(b);
+            *n=find_the_nearst_sell_shop(b);
             //if the fuel is not enough, go and get fuel added
             if(abs(*n)>(b->fuel)){
-                n=find_the_nearst_fuel_station(b);
+                *n=find_the_nearst_fuel_station(b);
             }
             break;
     }
@@ -230,7 +228,7 @@ void get_action(struct bot *b, int *action, int *n) {
 }
 
 //find the nearst shop and return the value
-int * find_nearst_buy_shop(struct bot *b){
+int find_nearst_buy_shop(struct bot *b){
     int a=0;
     int *n=&a;
     struct location *clocation=b->location;
@@ -245,7 +243,7 @@ int * find_nearst_buy_shop(struct bot *b){
     if(world_length < 2*(*n)){
        *n=(*n)- world_length;
     }
-    return n;
+    return *n;
 
 }
 
@@ -265,7 +263,7 @@ int get_world_length(struct bot *b){
 
 
 //find the nearast shop which could sell the same type of cargo
-int* find_the_nearst_sell_shop(struct bot *b){
+int find_the_nearst_sell_shop(struct bot *b){
     int a=0;
     int* n=&a;
     struct cargo * ccargo=b->cargo;
@@ -285,7 +283,7 @@ int* find_the_nearst_sell_shop(struct bot *b){
                         if(get_world_length(b) < 2*(*n)){
                             *n -= get_world_length(b);
                         }
-                        return n;
+                        return *n;
                     }
                 }
             }
@@ -296,12 +294,12 @@ int* find_the_nearst_sell_shop(struct bot *b){
     }
     // if not find the shop could sell cargo
     *n =1;
-    return n;
+    return *n;
 }
 
 
 //find the nearset fule station to fuel up
-int* find_the_nearst_fuel_station(struct bot *b){
+int find_the_nearst_fuel_station(struct bot *b){
     int a=0;
     int * n=&a;
     struct location *clocation=b->location;
@@ -316,7 +314,7 @@ int* find_the_nearst_fuel_station(struct bot *b){
     if(world_length < 2*(*n)){
         *n=(*n)- world_length;
     }
-    return n;
+    return *n;
 
 }
 
