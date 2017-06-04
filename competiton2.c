@@ -231,10 +231,10 @@ int * find_nearst_buy_shop(struct bot *b){
     int * n;
     struct location *clocation=b->location;
     int world_length=0;
-    *n=0;
+    (*n)=0;
 
     while(clocation->type != LOCATION_BUYER){
-        *n = *n+1;
+        (*n) = (*n)+1;
         clocation=clocation->next;
     }
     world_length=get_world_length(b);
