@@ -404,7 +404,7 @@ int find_quantity0fshop(struct bot *b){
     int quantity=0;
     while(start == 0 || clocation !=b->location){
         if(clocation->type == LOCATION_BUYER){
-            if((*clocation->commodity->name) == (b->location->commodity->name)){
+            if((*clocation->commodity->name) == (*b->location->commodity->name)){
                 quantity= clocation->quantity;
             }
         }
