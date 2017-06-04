@@ -127,7 +127,7 @@ void get_action(struct bot *b, int *action, int *n) {
                     a=*n;
                     newcargo=(struct cargo *) malloc(sizeof(cargo_size));
                     newcargo->next=NULL;
-                    newcargo->quantity=a;
+                    newcargo->quantity=10;
                     newcargo->commodity=(b->location->commodity);
                     //add this new cargo into the end of the cargo list
                     buyercargo=b->cargo;
