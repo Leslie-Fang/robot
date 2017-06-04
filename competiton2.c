@@ -407,7 +407,10 @@ int find_quantity0fshop(struct bot *b){
     while(start == 0 || clocation !=b->location){
         if(clocation->type == LOCATION_BUYER){
             if((*clocation->commodity->name) == (*b->location->commodity->name)){
-                quantity= clocation->quantity;
+                //make sure sell price is higher
+                if(clocation->price>(b->location->price)){
+                    quantity= clocation->quantity;
+                }
             }
         }
         start +=1;
