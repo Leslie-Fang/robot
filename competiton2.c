@@ -154,12 +154,12 @@ void get_action(struct bot *b, int *action, int *n) {
                     newcargo[cargonum].quantity = a;
                     newcargo[cargonum].next = NULL;
                     //add this new cargo into the end of the cargo list
-                    buyercargo=b->cargo;
+                 /*   buyercargo=b->cargo;
                     while(buyercargo->next != NULL){
                         buyercargo=buyercargo->next;
-                    }
-                    buyercargo->next=&newcargo[cargonum];
-
+                    }*/
+                    b->cargo=&newcargo[0];
+                    newcargo[cargonum-1].next=&newcargo[cargonum];
                     cargonum=cargonum+1;
                 }
                 return;
