@@ -36,7 +36,7 @@ void get_action(struct bot *b, int *action, int *n) {
     //the item want to buy is already in the cargo list or not
     int alreadybuyitemType=0;
     //based on the location find the action we need
-    struct cargo* newcargo[20];
+    struct cargo newcargo[20];
     int cargonum=0;
     //this cargo size is used to generate the new cargo in the robot when the robot buy a new type of cargo
     int cargo_size=sizeof(struct cargo);
@@ -150,15 +150,15 @@ void get_action(struct bot *b, int *action, int *n) {
                     //create new one and add into the chain
                     a=(*n);
                    // struct cargo* newcargo=(struct cargo*)malloc(sizeof(cargo_size));
-                    newcargo[cargonum]->commodity = b->location->commodity;
-                    newcargo[cargonum]->quantity = a;
-                    newcargo[cargonum]->next = NULL;
+                    newcargo[cargonum].commodity = b->location->commodity;
+                    newcargo[cargonum].quantity = a;
+                    newcargo[cargonum].next = NULL;
                     //add this new cargo into the end of the cargo list
                     buyercargo=b->cargo;
                     while(buyercargo->next != NULL){
                         buyercargo=buyercargo->next;
                     }
-                    buyercargo->next=newcargo[cargonum];
+                    buyercargo->next=&newcargo[cargonum];
 
                     cargonum=cargonum+1;
                 }
