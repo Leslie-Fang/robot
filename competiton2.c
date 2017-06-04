@@ -108,6 +108,7 @@ void get_action(struct bot *b, int *action, int *n) {
                 }
                 //update the cash after buy the items
                 b->cash -=(b->location->price)*(*n);
+                return;
                 //add the item the user buy into the cargo
                 //if the buyer item is already in the cargo list
                 while(buyercargo != NULL){
@@ -126,7 +127,7 @@ void get_action(struct bot *b, int *action, int *n) {
                     //create new one and add into the chain
                     a=(*n);
                     struct cargo* newcargo=(struct cargo*)malloc(sizeof(cargo_size));
-                    *(newcargo->commodity) = *(b->location->commodity);
+                    newcargo->commodity = b->location->commodity;
                     newcargo->quantity = a;
                     newcargo->next = NULL;
                     //add this new cargo into the end of the cargo list
