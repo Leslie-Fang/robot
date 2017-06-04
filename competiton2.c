@@ -16,6 +16,8 @@ int find_the_nearst_fuel_station(struct bot *b);
 int find_the_nearst_sell_shop(struct bot *b);
 //judge dump or not
 int do_dump(struct bot *b);
+//find the shop witch would buy this type of item
+int find_quantity0fshop(struct bot *b);
 
 char *get_bot_name(void) {
     return "CcLl Bot";
@@ -77,7 +79,8 @@ void get_action(struct bot *b, int *action, int *n) {
             if(buy_fuel != 1){
                 //buy other cargo
                 //by default buy all the cargo in this staff
-                *n=b->location->quantity;
+                //*n=b->location->quantity;
+                *n=find_quantity0fshop(b);
                 //in this action, n would be number of items, the robot wants to buy
                 costmoneyNeeded=(b->location->price)*(*n);
                 //if costmoneyNeeded greater than the cash the robot has, it couldn't buy so many items
@@ -392,4 +395,21 @@ int do_dump(struct bot *b){
     }
     return 1;
 
+}
+
+//find the shop witch would buy this type of item
+int find_quantity0fshop(struct bot *b){
+    struct location * clocation=b->location;
+    int start=0;
+    int quantity=0;
+    while(start == 0 || clocation !=b->location){
+        if(clocation->type == LOCATION_BUYER){
+            if((*clocation->commodity->name) == (b->location->commodity->name)){
+                quantity= clocation->quantity;
+            }
+        }
+        start +=1;
+        clocation=clocation->next;
+    }
+    return quantity;
 }
