@@ -228,10 +228,10 @@ void get_action(struct bot *b, int *action, int *n) {
 
 //find the nearst shop and return the value
 int * find_nearst_buy_shop(struct bot *b){
-    int * n;
+    int a=0;
+    int *n=&a;
     struct location *clocation=b->location;
     int world_length=0;
-    (*n)=0;
 
     while(clocation->type != LOCATION_BUYER){
         (*n) = (*n)+1;
@@ -263,11 +263,11 @@ int get_world_length(struct bot *b){
 
 //find the nearast shop which could sell the same type of cargo
 int* find_the_nearst_sell_shop(struct bot *b){
-    int* n;
+    int a=0;
+    int* n=&a;
     struct cargo * ccargo=b->cargo;
     struct location * clocation=b->location;
     int start=0;
-    *n=0;
     //when
     while(ccargo != NULL){
         //find the position
@@ -299,10 +299,10 @@ int* find_the_nearst_sell_shop(struct bot *b){
 
 //find the nearset fule station to fuel up
 int* find_the_nearst_fuel_station(struct bot *b){
-    int * n;
+    int a=0;
+    int * n=&a;
     struct location *clocation=b->location;
     int world_length=0;
-    *n=0;
 
     while(clocation->type != LOCATION_PETROL_STATION){
         *n = *n+1;
