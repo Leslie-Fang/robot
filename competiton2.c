@@ -79,8 +79,10 @@ void get_action(struct bot *b, int *action, int *n) {
             if(buy_fuel != 1){
                 //buy other cargo
                 //by default buy all the cargo in this staff
-                //*n=b->location->quantity;
-                *n=find_quantity0fshop(b);
+                *n=b->location->quantity;
+                if(*n>find_quantity0fshop(b) ){
+                    *n=find_quantity0fshop(b);
+                }
                 //in this action, n would be number of items, the robot wants to buy
                 costmoneyNeeded=(b->location->price)*(*n);
                 //if costmoneyNeeded greater than the cash the robot has, it couldn't buy so many items
